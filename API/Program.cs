@@ -1,4 +1,5 @@
 using Application.Activities.Queries;
+using Application.Core;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 
@@ -15,6 +16,7 @@ builder.Services.AddDbContext<AppDbContext>(opt => {
 builder.Services.AddCors();
 builder.Services.AddMediatR(x => 
     x.RegisterServicesFromAssemblyContaining<GetActivityList.Handler>());
+builder.Services.AddAutoMapper(typeof(MappingProfiles).Assembly);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -28,10 +30,15 @@ var services = scope.ServiceProvider;
 try
 {
     var context = services.GetRequiredService<AppDbContext>();
+    //o dong nay, context đã có sẵn dữ liệu từ database, vì nó được lấy từ DI container,
+    // và Entity Framework Core sẽ tự động kết nối với database mà bạn đã cấu hình.
     await context.Database.MigrateAsync();
+    //chi kiem tra schema, k kiem tra data
     await DbInitializer.SeedData(context);
+    //thuc hien seed data trong \Persistence\DbInitializer.cs
+    //data se duoc add vao db o line nay
 }
-catch(Exception ex)
+catch (Exception ex)
 {
     var logger  = services.GetRequiredService<ILogger<Program>>();
     logger.LogError(ex, "An error occurred during migration.");
