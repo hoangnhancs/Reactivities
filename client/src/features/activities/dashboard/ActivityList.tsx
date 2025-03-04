@@ -1,6 +1,7 @@
 import { Box } from '@mui/material'
 import ActivityCard from './ActivityCard'
 // import React from 'react'
+// import React from 'react'
 
 type Props = {
     activities : Activity[]
