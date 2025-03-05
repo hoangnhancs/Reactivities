@@ -1,4 +1,5 @@
 import { Box, Button, Card, CardActions, CardContent, Chip, Typography } from '@mui/material'
+import { useActivities } from '../../../lib/hooks/useActivities'
 // import React from 'react'
 
 type Props = {
@@ -6,16 +7,23 @@ type Props = {
     selectActivity: (id: string) => void
     editMode: boolean
     closeForm: () => void
-    deleteActivity: (id: string) => void
     cancelSelectActivity: () => void
 }
 
 
 export default function ActivityCard({activity, 
   selectActivity, 
-  closeForm,
-  deleteActivity, 
+  closeForm, 
   cancelSelectActivity} : Props) {
+  
+  const {deleteActivity} = useActivities();
+
+  const handleDeleteActivity = async () => {
+    await deleteActivity.mutateAsync(activity.id);
+    closeForm();
+    cancelSelectActivity();
+  }
+
   return (
     <Card sx={{borderRadius: 3}}>
         <CardContent>
@@ -28,9 +36,16 @@ export default function ActivityCard({activity,
             <Chip label={activity.category} variant='outlined'></Chip>
             <Box display='flex' gap={1}>
               <Button onClick={() => {selectActivity(activity.id); closeForm();}} size='medium' variant='contained'>View</Button>
-              <Button onClick={() => {deleteActivity(activity.id); closeForm(); cancelSelectActivity();}} size='medium' variant='contained' color='error'>Delete</Button>
+              <Button 
+                onClick={handleDeleteActivity} 
+                disabled={deleteActivity.isPending}
+                size='medium' 
+                variant='contained' 
+                color='error'>
+              Delete</Button>
             </Box>
         </CardActions>
     </Card>
   )
 }
+
