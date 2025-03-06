@@ -13,7 +13,7 @@ const agent = axios.create({
 
 agent.interceptors.response.use(async response => {
     try {
-        await sleep(500);
+        await sleep(1000);
         return response;
     } catch (error) {
         console.log(error);

@@ -1,28 +1,16 @@
 import { Box, Button, Card, CardActions, CardContent, Chip, Typography } from '@mui/material'
 import { useActivities } from '../../../lib/hooks/useActivities'
+import { NavLink } from 'react-router';
 // import React from 'react'
 
 type Props = {
     activity: Activity
-    selectActivity: (id: string) => void
-    editMode: boolean
-    closeForm: () => void
-    cancelSelectActivity: () => void
 }
 
 
-export default function ActivityCard({activity, 
-  selectActivity, 
-  closeForm, 
-  cancelSelectActivity} : Props) {
+export default function ActivityCard({activity} : Props) {
   
   const {deleteActivity} = useActivities();
-
-  const handleDeleteActivity = async () => {
-    await deleteActivity.mutateAsync(activity.id);
-    closeForm();
-    cancelSelectActivity();
-  }
 
   return (
     <Card sx={{borderRadius: 3}}>
@@ -35,9 +23,10 @@ export default function ActivityCard({activity,
         <CardActions sx={{display: 'flex', justifyContent: 'space-between', pb: 2}}>
             <Chip label={activity.category} variant='outlined'></Chip>
             <Box display='flex' gap={1}>
-              <Button onClick={() => {selectActivity(activity.id); closeForm();}} size='medium' variant='contained'>View</Button>
+              <Button component={NavLink} to={`/activities/${activity.id}`} 
+                size='medium' variant='contained'>View</Button>
               <Button 
-                onClick={handleDeleteActivity} 
+                onClick={() => deleteActivity.mutate(activity.id)} 
                 disabled={deleteActivity.isPending}
                 size='medium' 
                 variant='contained' 

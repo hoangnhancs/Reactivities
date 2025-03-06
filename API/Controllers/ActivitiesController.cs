@@ -21,13 +21,9 @@ public class ActivitiesController() : BaseApiController
     [HttpGet("{id}")]
     public async Task<ActionResult<Activity>> GetActivityDetail(string id)
     {
-        // var activity = await context.Activities.FindAsync(id);
-        // if (activity == null) return NotFound();
-        // return activity;
-        //comment this because it was definded 
-        // in Application/Activities/Queries/GetActivityDetails.cs
-
-        return await Mediator.Send(new GetActivityDetails.Query { Id = id });
+        var activity = await Mediator.Send(new GetActivityDetails.Query { Id = id });
+        if (activity == null) return NotFound(); // Trả về lỗi 404 nếu activity không tồn tại
+        return Ok(activity); // Trả về dữ liệu activity với mã 200 OK
     }
 
     [HttpPost]
