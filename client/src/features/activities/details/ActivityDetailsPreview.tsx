@@ -1,8 +1,9 @@
 import { Button, Card, CardActions, CardContent, CardMedia, Typography } from '@mui/material'
 import { NavLink, useNavigate, useParams } from 'react-router';
 import { useActivities } from '../../../lib/hooks/useActivities';
+import { formatDate } from '../../../lib/util/util';
 
-export default function ActivityDetail() {
+export default function ActivityDetailsPreview() {
   
   const navigate = useNavigate(); //auto route
   const {id} = useParams();
@@ -21,7 +22,7 @@ export default function ActivityDetail() {
         </CardMedia>
         <CardContent>
             <Typography variant='h5'>{activity.title}</Typography>
-            <Typography variant='subtitle1' fontWeight='light'>{activity.date}</Typography>
+            <Typography variant='subtitle1' fontWeight='light'>{formatDate(activity.date)}</Typography>
             <Typography variant='body1'>{activity.description}</Typography>
         </CardContent>
         <CardActions>
