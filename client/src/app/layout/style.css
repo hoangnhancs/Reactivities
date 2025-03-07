@@ -2,3 +2,6 @@
   width: 100% !important;
   border: none !important;
 }
+html {
+  overflow-y: scroll;
+}

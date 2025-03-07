@@ -4,9 +4,11 @@ import ActivityFilters from './ActivityFilters';
 
 export default function ActivityDashboard() {
 
-
+// const hasScrollbar = document.body.scrollHeight > window.innerHeight;
     return (
-        <Grid2 container spacing={3}>
+        
+        <Grid2 container spacing={3} >
+            
             <Grid2 size={8}>
                 <ActivityList />
             </Grid2>
