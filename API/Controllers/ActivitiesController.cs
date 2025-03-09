@@ -2,6 +2,7 @@ using System;
 using Application.Activities.Commands;
 using Application.Activities.DTOs;
 using Application.Activities.Queries;
+using Application.Core;
 using Domain;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -22,29 +23,28 @@ public class ActivitiesController() : BaseApiController
     [HttpGet("{id}")]
     public async Task<ActionResult<Activity>> GetActivityDetail(string id)
     {
-        var activity = await Mediator.Send(new GetActivityDetails.Query { Id = id });
-        if (activity == null) return NotFound(); // Trả về lỗi 404 nếu activity không tồn tại
-        return Ok(activity); // Trả về dữ liệu activity với mã 200 OK
+        // throw new Exception("Sever test error");
+        return HandleResult(await Mediator.Send(new GetActivityDetails.Query { Id = id }));
+
     }
 
     [HttpPost]
     public async Task<ActionResult<string>> CreateActivity(CreateActivityDto activityDto)
     {
-        return await Mediator.Send(new CreateActivity.Command { ActivityDto = activityDto });
+        return HandleResult(await Mediator.Send(new CreateActivity.Command { ActivityDto = activityDto }));
     }
 
     [HttpPut]
-    public async Task<ActionResult> EditActivity(Activity activity)
+    public async Task<ActionResult> EditActivity(EditActivityDto activity)
     {
-        await Mediator.Send(new EditActivity.Command { Activity = activity });
-        return Content("Edit success");
+        return HandleResult(await Mediator.Send(new EditActivity.Command { ActivityDto = activity }));
 
     }
 
     [HttpDelete("{id}")]
     public async Task<ActionResult> DeleteActivity(string id)
     {
-        await Mediator.Send(new DeleteActivity.Command { Id = id });
-        return Content("Delete success");
+        return HandleResult(await Mediator.Send(new DeleteActivity.Command { Id = id }));
+
     }
 }

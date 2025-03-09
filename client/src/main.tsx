@@ -5,7 +5,8 @@ import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
-
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify'
 // import App from './app/layout/App.tsx'
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query'
 import {ReactQueryDevtools} from '@tanstack/react-query-devtools'
@@ -20,6 +21,7 @@ createRoot(document.getElementById('root')!).render(
     <StoreContext.Provider value={store}>
       <QueryClientProvider client={queryClient}>
         <ReactQueryDevtools></ReactQueryDevtools>
+        <ToastContainer position='bottom-right' hideProgressBar theme='colored'/>
         {/* <App /> */}
         <RouterProvider router={router}></RouterProvider>
       </QueryClientProvider>
