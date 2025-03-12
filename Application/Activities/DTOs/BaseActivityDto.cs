@@ -12,6 +12,7 @@ public class BaseActivityDto
 
     public string Category { get; set; } = "";
 
+    //location props
     public string City { get; set; } = "";
 
     public string Venue { get; set; } = "";

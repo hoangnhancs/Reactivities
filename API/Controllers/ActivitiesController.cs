@@ -31,6 +31,7 @@ public class ActivitiesController() : BaseApiController
     [HttpPost]
     public async Task<ActionResult<string>> CreateActivity(CreateActivityDto activityDto)
     {
+        //Console.WriteLine($"Received ActivityDto: {activityDto}");
         return HandleResult(await Mediator.Send(new CreateActivity.Command { ActivityDto = activityDto }));
     }
 

@@ -1,4 +1,5 @@
 using API.Middleware;
+using Application.Activities.Commands;
 using Application.Activities.Queries;
 using Application.Activities.Validators;
 using Application.Core;
@@ -22,7 +23,8 @@ builder.Services.AddMediatR(x => {
     x.AddOpenBehavior(typeof(ValidationBehavior<,>));
 });
 builder.Services.AddAutoMapper(typeof(MappingProfiles).Assembly);
-builder.Services.AddValidatorsFromAssemblyContaining<CreateActivityValidators>();
+builder.Services.AddValidatorsFromAssemblyContaining<CreateActivityValidators>(); //can apply for all, check install.txt for more details
+builder.Services.AddScoped<IValidator<CreateActivity.Command>, CreateActivityValidators>(); //pnly apply for create
 builder.Services.AddTransient<ExceptionMiddleware>();
 
 var app = builder.Build();

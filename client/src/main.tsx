@@ -7,18 +7,20 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify'
-// import App from './app/layout/App.tsx'
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query'
 import {ReactQueryDevtools} from '@tanstack/react-query-devtools'
 import { RouterProvider } from 'react-router';
 import { router } from './app/router/Routes.tsx';
 import { store, StoreContext } from './lib/stores/store.ts';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3'
 
 const queryClient = new QueryClient();
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <StoreContext.Provider value={store}>
+    <LocalizationProvider dateAdapter={AdapterDateFns}>
+          <StoreContext.Provider value={store}>
       <QueryClientProvider client={queryClient}>
         <ReactQueryDevtools></ReactQueryDevtools>
         <ToastContainer position='bottom-right' hideProgressBar theme='colored'/>
@@ -26,5 +28,6 @@ createRoot(document.getElementById('root')!).render(
         <RouterProvider router={router}></RouterProvider>
       </QueryClientProvider>
     </StoreContext.Provider>
+    </LocalizationProvider>
   </StrictMode>,
 )

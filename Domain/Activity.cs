@@ -10,6 +10,8 @@ public class Activity
     public required string Description { get; set; }
     public required string Category { get; set; }
     public bool IsCancelled { get; set; }
+    
+    //location props
     public required string City { get; set; }
     public required string Venue { get; set; }
     public double Latitude { get; set; }
