@@ -10,8 +10,9 @@ const sleep = (delay: number) => {
 }
 
 const agent = axios.create({
-  baseURL: import.meta.env.VITE_API_URL
+  baseURL: import.meta.env.VITE_API_URL,
   //set env config in client/.env.development
+  withCredentials: true,
 });
 
 agent.interceptors.request.use(config => {
