@@ -5,6 +5,7 @@ using Application.Activities.Queries;
 using Application.Core;
 using Domain;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
@@ -14,11 +15,13 @@ namespace API.Controllers;
 
 public class ActivitiesController() : BaseApiController
 {
+
     [HttpGet]
     public async Task<ActionResult<List<Activity>>> GetActivities()
     {
         return await Mediator.Send(new GetActivityList.Query());
     }
+
 
     [HttpGet("{id}")]
     public async Task<ActionResult<Activity>> GetActivityDetail(string id)

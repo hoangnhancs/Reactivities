@@ -67,15 +67,15 @@ namespace Persistence.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("Bio")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("Bio")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("DisplayName")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("DisplayName")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
@@ -84,8 +84,8 @@ namespace Persistence.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("ImageUrl")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("TEXT");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("INTEGER");
