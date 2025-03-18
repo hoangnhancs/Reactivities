@@ -27,7 +27,7 @@ agent.interceptors.response.use(
         return response;
     },
     async error => {
-        await sleep(1000);
+        await sleep(5000);
         store.uiStore.isIdle();
         console.log('axios error: ' + error)
         const {status, data} = error.response;

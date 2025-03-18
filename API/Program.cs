@@ -3,8 +3,10 @@ using Application.Activities.Commands;
 using Application.Activities.Queries;
 using Application.Activities.Validators;
 using Application.Core;
+using Application.Interfaces;
 using Domain;
 using FluentValidation;
+using Infrastructure.Security;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Authorization;
@@ -15,30 +17,41 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers(opt => {
+builder.Services.AddControllers(opt =>
+{
     var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
     opt.Filters.Add(new AuthorizeFilter(policy));
 });
 
-builder.Services.AddDbContext<AppDbContext>(opt => {
+builder.Services.AddDbContext<AppDbContext>(opt =>
+{
     opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 //khi bạn đăng ký DbContext bằng AddDbContext<T>(), nó mặc định được đăng ký với vòng đời Scoped.
 builder.Services.AddCors();
-builder.Services.AddMediatR(x => {
+builder.Services.AddMediatR(x =>
+{
     x.RegisterServicesFromAssemblyContaining<GetActivityList.Handler>();
     x.AddOpenBehavior(typeof(ValidationBehavior<,>));
 });
+
+builder.Services.AddScoped<IUserAccessor, UserAccessor>();
 builder.Services.AddAutoMapper(typeof(MappingProfiles).Assembly);
 builder.Services.AddValidatorsFromAssemblyContaining<CreateActivityValidators>(); //can apply for all, check install.txt for more details
 builder.Services.AddScoped<IValidator<CreateActivity.Command>, CreateActivityValidators>(); //pnly apply for create
 builder.Services.AddTransient<ExceptionMiddleware>();
-builder.Services.AddIdentityApiEndpoints<User>(opt => {
+builder.Services.AddIdentityApiEndpoints<User>(opt =>
+{
     opt.User.RequireUniqueEmail = true;
 })
 .AddRoles<IdentityRole>()
 .AddEntityFrameworkStores<AppDbContext>();
-
+builder.Services.AddAuthorization(opt => {
+    opt.AddPolicy("IsActivityHost", policy => {
+        policy.Requirements.Add(new IsHostRequirement());
+    });
+});
+builder.Services.AddTransient<IAuthorizationHandler, IsHostRequirementHandler>();
 
 var app = builder.Build();
 app.UseMiddleware<ExceptionMiddleware>();
@@ -70,7 +83,7 @@ try
 }
 catch (Exception ex)
 {
-    var logger  = services.GetRequiredService<ILogger<Program>>();
+    var logger = services.GetRequiredService<ILogger<Program>>();
     logger.LogError(ex, "An error occurred during migration.");
     throw;
 }

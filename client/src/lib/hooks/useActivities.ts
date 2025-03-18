@@ -3,6 +3,7 @@ import agent from "../api/agent";
 import { useLocation } from "react-router";
 import { FieldValues } from "react-hook-form";
 import { useAccount } from "./useAccount";
+import { toast } from "react-toastify";
 
 
 
@@ -37,9 +38,9 @@ export const useActivities = (id?: string) => {
       await agent.put("/activities", activity);
     },
     onSuccess: async () => {
+      toast.success("Update activity successful")
       await queryClient.invalidateQueries({
-        queryKey: ["activities"],
-        //giúp đảm bảo dữ liệu mới nhất luôn được hiển thị.
+        queryKey: ["activities"]    
       });
     },
   });
@@ -50,6 +51,7 @@ export const useActivities = (id?: string) => {
       return response.data;
     },
     onSuccess: async () => {
+      toast.success("Create activity successful")
       await queryClient.invalidateQueries({
         queryKey: ["activities"],
         //giúp đảm bảo dữ liệu mới nhất luôn được hiển thị.

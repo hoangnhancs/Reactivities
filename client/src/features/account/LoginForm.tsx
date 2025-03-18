@@ -8,7 +8,7 @@ import TextInput from '../../app/shared/components/TextInput';
 import { Link, useLocation, useNavigate } from 'react-router';
 
 export default function LoginForm() {
-    const {loginUser} = useAccount();
+    const { loginUser} = useAccount();
     const navigate = useNavigate();
     const location = useLocation();
     const { control, handleSubmit, formState: { isValid, isSubmitting } } = useForm<LoginSchema>({
@@ -23,6 +23,9 @@ export default function LoginForm() {
             }
         });
     }
+
+
+
   return (
     <Paper 
         component={"form"} 
