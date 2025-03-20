@@ -48,6 +48,7 @@ public class AccountController(SignInManager<User> signInManager) : BaseApiContr
             user.Email,
             user.Id,
             user.ImageUrl,
+            // user.Photos,
         });
     }
 

@@ -14,7 +14,7 @@ public class AddPhoto
     {
         public required IFormFile File { get; set; }
     }
-    public class Handler(IUserAccessor userAccessor, AppDbContext context, 
+    public class Handler(IUserAccessor userAccessor, AppDbContext context,
         IPhotoServices photoServices) : IRequestHandler<Command, Result<Photo>>
     {
         public async Task<Result<Photo>> Handle(Command request, CancellationToken cancellationToken)
@@ -32,11 +32,13 @@ public class AddPhoto
                 UserId = user.Id,
             };
 
-            user.ImageUrl ??= photo.Url;
+            user.ImageUrl ??= photo.Url; //keep main image url
+            // user.ImageUrl = photo.Url; //update new image url
+
             context.Photos.Add(photo);
             var result = await context.SaveChangesAsync(cancellationToken) > 0;
 
-            return result 
+            return result
                 ? Result<Photo>.Success(photo)
                 : Result<Photo>.Failure("Problem saving photo to DB", 400);
         }
