@@ -1,7 +1,6 @@
 import { Box, debounce, List, ListItemButton, TextField, Typography } from "@mui/material"
 import { useEffect, useMemo, useState } from "react";
 import { FieldValues, useController, UseControllerProps } from "react-hook-form"
-import { LocationIQSuggestion } from "../../../lib/types";
 import axios from "axios";
 
 
@@ -48,11 +47,14 @@ export default function LocationInput<T extends FieldValues> (props: Props<T>) {
         }, 500), [locationURL] 
     )
 
-    const handleChange = async (value: string) => {
-        field.onChange(value);
-        await fetchSuggestions(value);
-    }
+    //chỉ gọi API sau 500ms nếu người dùng dừng gõ.
 
+    const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        setInputValue(value);
+        field.onChange(value);
+        await fetchSuggestions(value); // Gọi API gợi ý nhưng không set field.onChange ngay
+    };
     const handleSelect = (location: LocationIQSuggestion) => {
         const city = location.address?.city || location.address?.town || location.address?.village
         const venue = location.display_name
@@ -69,7 +71,7 @@ export default function LocationInput<T extends FieldValues> (props: Props<T>) {
             <TextField
                 {...props}
                 value={inputValue}
-                onChange={e => handleChange(e.target.value)}
+                onChange={handleChange}
                 fullWidth
                 variant="outlined"
                 error={!!fieldState.error}

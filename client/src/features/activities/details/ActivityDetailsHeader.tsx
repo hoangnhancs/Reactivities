@@ -1,5 +1,5 @@
 import { Card, CardMedia, Box, Typography, Chip } from "@mui/material";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { formatDate } from "../../../lib/util/util";
 import { useActivities } from "../../../lib/hooks/useActivities";
 import StyledButton from "../../../app/shared/components/StyledButton";
@@ -12,6 +12,7 @@ export default function ActivityDetailsHeader({activity}: Props) {
     const isCancelled = activity.isCancelled;
     const isHost = activity.isHost;
     const isGoing = activity.isGoing;
+    const navigate = useNavigate();
     const {updateAttendance} = useActivities(activity.id);
 
     return (
@@ -69,8 +70,11 @@ export default function ActivityDetailsHeader({activity}: Props) {
                         <StyledButton
                             variant="contained"
                             color="primary"
-                            component={Link}
-                            to={`/manage/${activity.id}`}
+                            onClick={() => {
+                                navigate(`/manage/${activity.id}`, {replace: true})
+                            }}
+                            
+                            
                             disabled={isCancelled}
                             sx={{visibility: isCancelled ? "hidden" : "visible"}}
                         >

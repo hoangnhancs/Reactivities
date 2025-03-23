@@ -37,6 +37,19 @@ export default function ProfileCard({profile}: Props) {
                         {/* DisplayName + Following */}
                         <Box sx={{ flex: 6, display: 'flex', alignItems: 'center', gap: 1 }}>
                             <Typography variant="h6" sx={{ flex: 1 }}>{profile.displayName}</Typography>
+                            {profile.bio && (
+                                <Typography 
+                                    variant="body2"
+                                    sx={{
+                                        textOverflow: 'ellipsis',
+                                        overflow: 'hidden',
+                                        whiteSpace: 'nowrap'
+                                    }}
+                                >
+                                    {profile.bio}
+                                </Typography>
+                            )}
+                            
                             {following && (
                                 <Chip
                                     size="small"
