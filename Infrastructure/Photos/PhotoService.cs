@@ -35,7 +35,7 @@ public class PhotoService : IPhotoServices
         return result.Result;
     }
 
-    public async Task<PhotoUploadResult?> UploadPhoto(IFormFile file)
+    public async Task<PhotoUploadResultDto?> UploadPhoto(IFormFile file)
     {
         if (file.Length > 0)
         {
@@ -54,7 +54,7 @@ public class PhotoService : IPhotoServices
                 throw new Exception(uploadResult.Error.Message);
             }
 
-            return new PhotoUploadResult
+            return new PhotoUploadResultDto
             {
                 PublicId = uploadResult.PublicId,
                 Url = uploadResult.SecureUrl.AbsoluteUri

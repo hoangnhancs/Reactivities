@@ -23,5 +23,5 @@ public class ActivityDto
     public double Longitude { get; set; }
 
     //navigation props
-    public ICollection<UserProfiles> Attendees { get; set; } = [];
+    public ICollection<UserProfilesDto> Attendees { get; set; } = [];
 }

@@ -2,7 +2,7 @@ using System;
 
 namespace Application.Profiles.DTOs;
 
-public class UserProfiles
+public class UserProfilesDto
 {
     public required string Id { get; set; }
     public required string DisplayName { get; set; }
