@@ -69,7 +69,7 @@ export default function ActivityCard({activity} : Props) {
           <Box display={'flex'} gap={2} 
             sx={{backgroundColor: 'grey.200', py: 3, pl: 3}}>
             {activity.attendees.map(att => (
-              <AvatarPopover key={att.id} profile={att} />
+              <AvatarPopover key={att.id} id={att.id} />
             ))}
           </Box>
       </CardContent>

@@ -10,7 +10,7 @@ public class Activity
     public required string Description { get; set; }
     public required string Category { get; set; }
     public bool IsCancelled { get; set; }
-    
+
     //location props
     public required string City { get; set; }
     public required string Venue { get; set; }
@@ -20,4 +20,5 @@ public class Activity
     //navigation props: se khong duoc tao thanh column trong table
     //collection navigation properties (ICollection<>, List<>)
     public ICollection<ActivityAttendee> Attendees { get; set; } = [];
+    public ICollection<Comment> Comments { get; set; } = [];
 }

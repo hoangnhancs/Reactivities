@@ -29,11 +29,18 @@ type Photo = {
   url: string
 };
 
-
-
 type User = {
   id: string
   email: string
+  displayName: string
+  imageUrl?: string
+}
+
+type ChatComment = {
+  id: string
+  createdAt: Date
+  body: string
+  userId: string 
   displayName: string
   imageUrl?: string
 }

@@ -2,7 +2,7 @@ import { z } from "zod"
 import { requiredString } from "../util/util"
 
 export const profileSchema = z.object({
-  displayName: requiredString("displayname"),
+  displayName: requiredString("Display Name"),
   bio: z.string().optional(),
 });
 
