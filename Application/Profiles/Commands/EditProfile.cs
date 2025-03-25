@@ -21,7 +21,7 @@ public class EditProfile
             var currrentUser = await userAccessor.GetUserAsync();
             currrentUser.Bio = request.Bio;
             currrentUser.DisplayName = request.DisplayName;
-            // dbContext.Entry(currrentUser).State = EntityState.Modified;
+            dbContext.Entry(currrentUser).State = EntityState.Modified;
             var result = await dbContext.SaveChangesAsync(cancellationToken) > 0;
             return result 
                 ? Result<Unit>.Success(Unit.Value)

@@ -4,7 +4,7 @@ import ActivityDetailsHeader from './ActivityDetailsHeader';
 import ActivityDetailsInfo from './ActivityDetailsInfo';
 import ActivityDetailsChat from './ActivityDetailsChat';
 import { useParams } from 'react-router';
-import ActivityDetailsSlidebar from './ActivityDetailsSlidebar';
+import ActivityDetailsSlidebar from './ActivityDetailsSidebar';
 
 export default function ActivityDetailPage() {
   

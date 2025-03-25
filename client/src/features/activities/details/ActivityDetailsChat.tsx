@@ -8,7 +8,6 @@ import { timeAgo } from "../../../lib/util/util";
 import AvatarPopover from "../../../app/shared/components/AvatarPopover";
 
 
-
 const ActivityDetailsChat = observer(function ActivityDetailsChat() {
     const {id} = useParams()
     const {commentStore} = useComments(id);

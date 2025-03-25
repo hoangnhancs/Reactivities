@@ -13,9 +13,6 @@ public class ActivityDto
     public bool IsCancelled { get; set; }
     public required string HostDisplayName { get; set; }
     public required string HostId { get; set; }
-    public int test1 = 2;
-    public int test2 =3;
-
     //location props
     public required string City { get; set; }
     public required string Venue { get; set; }
