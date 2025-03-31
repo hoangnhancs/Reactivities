@@ -1,11 +1,28 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import agent from "../api/agent";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { ProfileSchema } from "../schemas/profileSchema";
 
 export const useProfile = (id?: string, predicate?: string) => {
 
     const queryClient = useQueryClient();
+    const [filter, setFilter] = useState<string | null>(null);
+
+    const {data: userActivities, isLoading: loadingUserActivities} = useQuery<Activity []>({
+        queryKey: ['user-activities', id, filter],
+        queryFn: async () => {
+            const response = await agent.get<Activity[]>(
+              `profiles/${id}/activities`,
+              {
+                params: {
+                  filter,
+                },
+              }
+            );
+            return response.data;
+        },
+        enabled: !!id && !!filter
+    })
     
     const {data: profile, isLoading: loadingProfile} = useQuery<Profile>({
         queryKey: ['profile', id],
@@ -24,7 +41,7 @@ export const useProfile = (id?: string, predicate?: string) => {
         },
         enabled: !!id && !predicate
     })
-
+    //dua vao day ma update profile card
     const {data: followings, isLoading: loadingFollowings} = useQuery<Profile[]>({
         queryKey: ['followings', id, predicate],
         queryFn: async () => {
@@ -126,7 +143,7 @@ export const useProfile = (id?: string, predicate?: string) => {
         },
         onSuccess: () => {
             queryClient.setQueryData(['profile', id], (profile: Profile) => {
-                queryClient.invalidateQueries({queryKey: ['followings', id, 'followers']})
+                
                 if (!profile || profile.followersCount === undefined) return profile;
                 return {
                     ...profile,
@@ -136,6 +153,12 @@ export const useProfile = (id?: string, predicate?: string) => {
                         : profile.followersCount + 1
                 }
             })
+            queryClient.invalidateQueries({
+                queryKey: ["followings", id, "followers"],
+            });
+            queryClient.invalidateQueries({
+                queryKey: ["followings", id, "followings"],
+            });
         }
     })
 
@@ -147,17 +170,21 @@ export const useProfile = (id?: string, predicate?: string) => {
     }, [id, queryClient])
 
     return {
-        profile,
-        loadingProfile,
-        photos,
-        loadingPhotos,
-        isCurrentUser,
-        uploadPhoto,
-        setMainPhoto,
-        deletePhoto,
-        updateProfile,
-        updateFollowing,
-        followings,
-        loadingFollowings,
+      profile,
+      loadingProfile,
+      photos,
+      loadingPhotos,
+      isCurrentUser,
+      uploadPhoto,
+      setMainPhoto,
+      deletePhoto,
+      updateProfile,
+      updateFollowing,
+      followings,
+      loadingFollowings,
+      userActivities,
+      loadingUserActivities,
+      setFilter,
+      filter,
     };
 };

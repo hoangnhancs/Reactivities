@@ -1,38 +1,66 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  keepPreviousData,
+  useInfiniteQuery,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import agent from "../api/agent";
 import { useLocation } from "react-router";
 import { FieldValues } from "react-hook-form";
 import { useAccount } from "./useAccount";
 import { toast } from "react-toastify";
-
-
+import { useStore } from "./useStore";
 
 export const useActivities = (id?: string) => {
+  const {activityStore: {filter, startDate}} = useStore();
   const queryClient = useQueryClient();
-  const {currentUser} = useAccount();
+  const { currentUser } = useAccount();
   const location = useLocation();
 
-  const { data: activities, isLoading } = useQuery({
-    queryKey: ["activities"],
-    queryFn: async () => {
-      const response = await agent.get<Activity[]>(
-        "/activities" //vi baseURL: import.meta.env.VITE_API_URL
-        // =https://localhost:5001/api
+  const {
+    data: activitiesGroup,
+    isLoading,
+    isFetchingNextPage,
+    fetchNextPage,
+    hasNextPage,
+  } = useInfiniteQuery<PagedList<Activity, string>>({
+    queryKey: ["activities", filter, startDate],
+    queryFn: async ({ pageParam = null }) => {
+      const response = await agent.get<PagedList<Activity, string>>(
+        "/activities", //vi baseURL: import.meta.env.VITE_API_URL=https://localhost:5001/api
+        {
+          params: {
+            cursor: pageParam,
+            pageSize: 3,
+            filter,
+            startDate,
+          },
+        }
       );
       return response.data;
     },
+    staleTime: 1000 * 60 * 5,
+    placeholderData: keepPreviousData,
+    initialPageParam: null,
+    getNextPageParam: (curentPage) => curentPage.nextCursor, //curent chính là kết quả của lần gọi API trước đó.
     enabled: !id && location.pathname === "/activities" && !!currentUser,
-    select: data => {
-      return data.map(activity => {
-        const host = activity.attendees.find(x => x.id === activity.hostId)
-        return {
-          ...activity,
-          isHost: currentUser?.id == activity.hostId,
-          isGoing: activity.attendees.some( x => x.id === currentUser?.id),
-          hostImageUrl: host?.imageUrl
-        }
-      })
-    }
+    select: (data) => ({
+      //dât la 1 cuc ma minh vua tra ve
+      ...data,
+      pages: data.pages.map((page) => ({
+        ...page,
+        items: page.items.map((activity) => {
+          const host = activity.attendees.find((x) => x.id === activity.hostId);
+          return {
+            ...activity,
+            isHost: currentUser?.id == activity.hostId,
+            isGoing: activity.attendees.some((x) => x.id === currentUser?.id),
+            hostImageUrl: host?.imageUrl,
+          };
+        }),
+      })),
+    }),
   });
 
   const { data: activity, isLoading: isLoadingActivity } = useQuery({
@@ -42,15 +70,15 @@ export const useActivities = (id?: string) => {
       return response.data;
     },
     enabled: !!id && !!currentUser,
-    select: data => {
-      const host = data.attendees.find(x => x.id === data.hostId);
+    select: (data) => {
+      const host = data.attendees.find((x) => x.id === data.hostId);
       return {
         ...data,
         isHost: currentUser?.id == data.hostId,
-        isGoing: data.attendees.some(x => x.id === currentUser?.id),
-        hostImageUrl: host?.imageUrl
+        isGoing: data.attendees.some((x) => x.id === currentUser?.id),
+        hostImageUrl: host?.imageUrl,
       };
-    }
+    },
   });
 
   const updateActivity = useMutation({
@@ -58,9 +86,9 @@ export const useActivities = (id?: string) => {
       await agent.put(`/activities/${activity.id}`, activity);
     },
     onSuccess: async () => {
-      toast.success("Update activity successful")
+      toast.success("Update activity successful");
       await queryClient.invalidateQueries({
-        queryKey: ["activities"]    
+        queryKey: ["activities"],
       });
     },
   });
@@ -71,7 +99,7 @@ export const useActivities = (id?: string) => {
       return response.data;
     },
     onSuccess: async () => {
-      toast.success("Create activity successful")
+      toast.success("Create activity successful");
       await queryClient.invalidateQueries({
         queryKey: ["activities"],
         //giúp đảm bảo dữ liệu mới nhất luôn được hiển thị.
@@ -93,7 +121,7 @@ export const useActivities = (id?: string) => {
 
   const updateAttendance = useMutation({
     mutationFn: async (id: string) => {
-      await agent.post(`activities/${id}/attend`)
+      await agent.post(`activities/${id}/attend`);
     },
     onMutate: async (activityId: string) => {
       await queryClient.cancelQueries({ queryKey: ["activities", activityId] });
@@ -117,7 +145,9 @@ export const useActivities = (id?: string) => {
 
           return {
             ...oldActivity,
-            isCancelled: (isHost ? !oldActivity.isCancelled : oldActivity.isCancelled),
+            isCancelled: isHost
+              ? !oldActivity.isCancelled
+              : oldActivity.isCancelled,
             attendees: isAttending
               ? isHost
                 ? oldActivity.attendees
@@ -127,7 +157,7 @@ export const useActivities = (id?: string) => {
                   {
                     id: currentUser.id,
                     displayName: currentUser.displayName,
-                    imageUrl: currentUser.imageUrl,  
+                    imageUrl: currentUser.imageUrl,
                   },
                 ],
           };
@@ -136,17 +166,21 @@ export const useActivities = (id?: string) => {
       return { prevActivity };
     },
     onError: (error, activityId, context) => {
-      console.log(error)
+      console.log(error);
       if (context?.prevActivity) {
         queryClient.setQueryData(
-          ["activities", activityId], context.prevActivity
+          ["activities", activityId],
+          context.prevActivity
         );
       }
-    }
-  })
+    },
+  });
 
   return {
-    activities,
+    activitiesGroup,
+    isFetchingNextPage,
+    fetchNextPage,
+    hasNextPage,
     isLoading,
     updateActivity,
     createActivity,

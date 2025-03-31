@@ -1,6 +1,6 @@
 import { useParams } from "react-router"
 import { useProfile } from "../../lib/hooks/useProfile";
-import { Box, Divider, Typography } from "@mui/material";
+import { Box, Divider, Grid2, Typography } from "@mui/material";
 import ProfileCard from "./ProfileCard";
 
 type Props = {
@@ -12,7 +12,15 @@ export default function ProfileFollowings({activeTab}: Props) {
     const predicate = activeTab === 3 ? 'followers' : 'followings';
     const {profile, followings, loadingFollowings} = useProfile(id, predicate)
     return (
-        <Box>
+        <Box  
+            sx={{ 
+                height: "450px",  // Giới hạn chiều cao của Box cha
+                 // Ẩn nội dung tràn ra ngoài
+                 overflow: "auto",
+                display: "flex",
+                flexDirection: "column"
+            }}
+        >
             <Box display={"flex"}>
                 <Typography variant="h5">
                     {activeTab === 3 
@@ -24,11 +32,25 @@ export default function ProfileFollowings({activeTab}: Props) {
             {loadingFollowings ? (
                 <Typography>Loading...</Typography>
             ) : (
-                <Box display={"flex"} flexWrap="wrap" justifyContent="space-between" marginTop={3} gap={3}>
-                    {followings?.map(profile => (
-                        <ProfileCard key={profile.id} profile={profile} />
-                    ))}
-                </Box>
+                <Grid2 
+                container 
+                spacing={3} 
+                sx={{ 
+                    overflowY: "auto", // Cho phép cuộn dọc
+                    boxSizing: "border-box",
+                    maxHeight: "100%",
+                    pb: 1,
+                    pt: 1,}}  
+                >
+                    {followings?.map(profile => 
+                        (
+                            <Grid2 key={profile.id}
+                            >
+                                <ProfileCard profile={profile} />
+                            </Grid2>
+                        )
+                    )}
+                </Grid2>
             )}
         </Box>
     )

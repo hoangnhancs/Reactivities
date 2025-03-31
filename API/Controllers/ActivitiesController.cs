@@ -17,9 +17,9 @@ public class ActivitiesController() : BaseApiController
 {
 
     [HttpGet]
-    public async Task<ActionResult<List<ActivityDto>>> GetActivities()
+    public async Task<ActionResult<PageList<ActivityDto, DateTime?>>> GetActivities([FromQuery]ActivityParams activityParams)
     {
-        return await Mediator.Send(new GetActivityList.Query());
+        return HandleResult(await Mediator.Send(new GetActivityList.Query { Params = activityParams }));
     }
 
 
@@ -58,7 +58,7 @@ public class ActivitiesController() : BaseApiController
     [HttpPost("{id}/attend")]
     public async Task<ActionResult> Attend(string id)
     {
-        return HandleResult(await Mediator.Send(new UpdateAttendance.Command {Id = id}));
+        return HandleResult(await Mediator.Send(new UpdateAttendance.Command { Id = id }));
     }
 }
 

@@ -44,8 +44,8 @@ export default function AvatarPopover({id}: Props) {
             open={open}
             anchorEl={anchorEl}
             anchorOrigin={{
-            vertical: 'top',// Định vị Popover ở trên phần tử gốc
-            horizontal: 'right',// Canh phải so với phần tử gốc
+            vertical: 'center',// Định vị Popover ở trên phần tử gốc
+            horizontal: 'center',// Canh phải so với phần tử gốc
             }}
             transformOrigin={{
             vertical: 'bottom',// Điểm gốc của Popover ở dưới cùng
