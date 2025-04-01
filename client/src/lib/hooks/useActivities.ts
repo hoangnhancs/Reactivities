@@ -40,7 +40,6 @@ export const useActivities = (id?: string) => {
       );
       return response.data;
     },
-    staleTime: 1000 * 60 * 5,
     placeholderData: keepPreviousData,
     initialPageParam: null,
     getNextPageParam: (curentPage) => curentPage.nextCursor, //curent chính là kết quả của lần gọi API trước đó.

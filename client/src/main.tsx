@@ -20,14 +20,14 @@ const queryClient = new QueryClient();
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <LocalizationProvider dateAdapter={AdapterDateFns}>
-          <StoreContext.Provider value={store}>
-      <QueryClientProvider client={queryClient}>
-        <ReactQueryDevtools></ReactQueryDevtools>
-        <ToastContainer position='bottom-right' hideProgressBar theme='colored'/>
-        {/* <App /> */}
-        <RouterProvider router={router}></RouterProvider>
-      </QueryClientProvider>
-    </StoreContext.Provider>
+      <StoreContext.Provider value={store}>
+        <QueryClientProvider client={queryClient}>
+          <ReactQueryDevtools></ReactQueryDevtools>
+          <ToastContainer position='bottom-right' hideProgressBar theme='colored'/>
+          {/* <App /> */}
+          <RouterProvider router={router}></RouterProvider>
+        </QueryClientProvider>
+      </StoreContext.Provider>
     </LocalizationProvider>
   </StrictMode>,
 )

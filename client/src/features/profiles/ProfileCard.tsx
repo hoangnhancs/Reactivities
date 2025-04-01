@@ -20,7 +20,7 @@ export default function ProfileCard({profile}: Props) {
     const {updateFollowing} = useProfile(profile.id) //update card minh click
     const handleUpdateFollowing =  useMutation({
         mutationFn: async () => {
-            updateFollowing.mutate() //update card minh click
+            return updateFollowing.mutateAsync() //update card minh click
         },
         onSuccess: async () => {
             
@@ -54,7 +54,9 @@ export default function ProfileCard({profile}: Props) {
                             ? (oldData.followingCount && oldData.followingCount - 1)
                             : (oldData.followingCount && oldData.followingCount + 1)
                     }
-            });        
+            });
+            await queryClient.refetchQueries({ queryKey: ["followings", id, "followers"] });
+            await queryClient.refetchQueries({ queryKey: ["followings", id, "followings"] }); 
         },
     });
     

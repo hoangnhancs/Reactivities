@@ -28,7 +28,7 @@ builder.Services.AddControllers(opt =>
 
 builder.Services.AddDbContext<AppDbContext>(opt =>
 {
-    opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
+    opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 //khi bạn đăng ký DbContext bằng AddDbContext<T>(), nó mặc định được đăng ký với vòng đời Scoped.
 builder.Services.AddCors();
@@ -69,10 +69,15 @@ app.UseCors(options => options.AllowAnyHeader().AllowAnyMethod()
 
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseDefaultFiles();
+app.UseStaticFiles();
+
 
 app.MapControllers();
 app.MapGroup("api").MapIdentityApi<User>();
 app.MapHub<CommentHub>("/comments");
+app.MapFallbackToController("Index", "Fallback");
+
 
 using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;

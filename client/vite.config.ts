@@ -8,4 +8,9 @@ export default defineConfig({
     port: 3000,
   },
   plugins: [react(), mkcert()],
+  build: {
+    outDir: "../API/wwwroot",
+    chunkSizeWarningLimit: 1600,
+    emptyOutDir: true,
+  },
 });
