@@ -1,7 +1,6 @@
 using API.Middleware;
 using API.SignalR;
 using Application.Activities.Commands;
-using Application.Activities.DTOs;
 using Application.Activities.Queries;
 using Application.Activities.Validators;
 using Application.Core;
@@ -15,6 +14,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Persistence;
 using Resend;
 
@@ -112,5 +112,6 @@ catch (Exception ex)
     logger.LogError(ex, "An error occurred during migration.");
     throw;
 }
+
 
 app.Run();
