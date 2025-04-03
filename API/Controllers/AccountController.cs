@@ -31,7 +31,7 @@ public class AccountController(SignInManager<User> signInManager, IEmailSender<U
         {
             await SendConfirmationEmailAsync(user, registerDto.Email);
             return Ok();
-        } 
+        }
 
         foreach (var error in result.Errors)
         {
@@ -59,7 +59,7 @@ public class AccountController(SignInManager<User> signInManager, IEmailSender<U
         var code = await signInManager.UserManager.GenerateEmailConfirmationTokenAsync(user);
         code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
 
-        var confirmEmailUrl = $"{config["ClientAppUser"]}/confirm-email?userId={user.Id}&code={code}";
+        var confirmEmailUrl = $"{config["ClientAppUrl"]}/confirm-email?userId={user.Id}&code={code}";
 
         await emailSender.SendConfirmationLinkAsync(user, email, confirmEmailUrl);
     }

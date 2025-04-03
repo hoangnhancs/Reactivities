@@ -9,6 +9,19 @@ export const useAccount = () => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
+  const verifyEmail = useMutation({
+    mutationFn: async ({userId, code}: {userId: string, code: string}) => {
+      await agent.get(`/confirmEmail?userId=${userId}&code=${code}`) //microsoft endpoint to verify email, check in program.cs
+    }
+  })
+
+  const resendConfirmationEmail = useMutation({
+    mutationFn: async (email: string) => {
+      await agent.get(`/account/resendConfirmEmail?email=${email}`)
+    },
+
+  })
+
   const { data: currentUser, isLoading: loadingUserInfo } = useQuery({
     queryKey: ["user"],
     queryFn: async () => {
@@ -35,7 +48,7 @@ export const useAccount = () => {
     },
     onSuccess: () => {
       toast.success("Register successful - You can now login");
-      navigate("/login");
+      // navigate("/login");
     },
   });
 
@@ -56,5 +69,7 @@ export const useAccount = () => {
     logoutUser,
     loadingUserInfo,
     registerUser,
+    verifyEmail,
+    resendConfirmationEmail,
   };
 };

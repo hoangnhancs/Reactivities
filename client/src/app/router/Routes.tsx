@@ -1,4 +1,4 @@
-import {createBrowserRouter} from "react-router";
+import {createBrowserRouter, Navigate} from "react-router";
 import App from "../layout/App";
 import HomePage from "../../features/home/HomePage";
 import ActivityForm from "../../features/activities/form/ActivityForm";
@@ -12,6 +12,7 @@ import LoginForm from "../../features/account/LoginForm";
 import RequireAuth from "./RequireAuth";
 import RegisterForm from "../../features/account/RegisterForm";
 import ProfilePage from "../../features/profiles/ProfilePage";
+import VerifyEmail from "../../features/account/VerifyEmail";
 
 
 export const router = createBrowserRouter([
@@ -30,11 +31,11 @@ export const router = createBrowserRouter([
             {path: 'counter', element: <Counter />},
             {path: 'errors', element: <TestErrors />},
             {path: 'not-found', element: <NotFound />},
-            // {path: 'not-found/*', element: <NotFound />},
             {path: 'server-error', element: <ServerError />},
-            // {path: '*', element: <Navigate replace to='not-found' />}
             {path: 'login', element: <LoginForm />},
             {path: 'register', element: <RegisterForm />},
+            {path: 'confirm-email', element: <VerifyEmail />},
+            { path: '*', element: <Navigate replace to='/not-found' /> },
         ]
     }
 ])
