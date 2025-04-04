@@ -27,7 +27,7 @@ export default function RegisterSuccess({email}: Props) {
             <Typography gutterBottom variant="h3">
                 You have successfully registered!
             </Typography>
-            <Typography gutterBottom variant="h3">
+            <Typography gutterBottom variant="h3" textAlign={"center"}>
                 Please check your email to confirm your account
             </Typography>
             <Button fullWidth  onClick={() => resendConfirmationEmail.mutate(email)}>

@@ -16,10 +16,20 @@ export const useAccount = () => {
   })
 
   const resendConfirmationEmail = useMutation({
-    mutationFn: async (email: string) => {
-      await agent.get(`/account/resendConfirmEmail?email=${email}`)
+    mutationFn: async ({email, userId} : {email?: string, userId?: string | null}) => {
+      await agent.get(`/account/resendConfirmEmail`, {
+        params: {
+          email,
+          userId,
+        }
+      })
     },
-
+    onSuccess: async () => {
+      toast.success("Email sent - please check your email")
+    },
+    onError: async () => {
+      toast.error("Problem sending email - please check your email address");
+    }
   })
 
   const { data: currentUser, isLoading: loadingUserInfo } = useQuery({

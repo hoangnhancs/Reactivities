@@ -19,25 +19,29 @@ const  ActivityList = observer(function ActivityList() {
   if (isLoading) return <Typography>Loading...</Typography>
 
   if (!activitiesGroup) return <Typography>No activities found</Typography>
-
   return (
-    
-    <Box sx={{display:'flex', flexDirection:'column', gap:3}}>
-        {activitiesGroup.pages.map((activities, index) => (
-          <Box 
-            key={index}
-            ref={index === activitiesGroup.pages.length - 1 ? ref : null}
-            display={'flex'}
-            flexDirection={'column'}
-            gap={3}
-          >
-            {activities.items.map(activity => (
-              <ActivityCard key={activity.id} activity={activity}/>
-            ))}
-          </Box>
-            
-        ))}
-    </Box>
+    <>
+      {activitiesGroup.pages[0].items.length == 0 ? (
+        <Typography>No activities found</Typography>
+      ) : (
+        <Box sx={{display:'flex', flexDirection:'column', gap:3}}>
+          {activitiesGroup.pages.map((activities, index) => (
+            <Box 
+              key={index}
+              ref={index === activitiesGroup.pages.length - 1 ? ref : null}
+              display={'flex'}
+              flexDirection={'column'}
+              gap={3}
+            >
+              {activities.items.map(activity => (
+                <ActivityCard key={activity.id} activity={activity}/>
+              ))}
+            </Box>
+              
+          ))}
+        </Box>
+      )}
+    </> 
   )
 })
 
