@@ -52,7 +52,7 @@ agent.interceptors.response.use(
             }
             else
             {
-              toast.error("Unauthorised");
+              toast.error(data.detail);
             }
             break;
           case 404:

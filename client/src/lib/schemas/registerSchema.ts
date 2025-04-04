@@ -1,10 +1,10 @@
 import { z } from "zod";
-import { requiredString } from "../util/util";
+import { passwordSchema, requiredString } from "../util/util";
 
 export const registerSchema = z.object({
     email: z.string().email(),
-    displayName: requiredString('displayname'),
-    password: requiredString('password'),
+    displayName: requiredString('Display name'),
+    password: passwordSchema('Password'),
 })
 
 export type RegisterSchema = z.infer<typeof registerSchema>

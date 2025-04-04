@@ -13,6 +13,7 @@ import RequireAuth from "./RequireAuth";
 import RegisterForm from "../../features/account/RegisterForm";
 import ProfilePage from "../../features/profiles/ProfilePage";
 import VerifyEmail from "../../features/account/VerifyEmail";
+import ChangePasswordForm from "../../features/account/ChangePasswordForm";
 
 
 export const router = createBrowserRouter([
@@ -26,6 +27,7 @@ export const router = createBrowserRouter([
                 {path: 'createActivity', element: <ActivityForm key='create' />},
                 {path: 'manage/:id', element: <ActivityForm />},
                 {path: 'profiles/:id', element: <ProfilePage />},
+                {path: 'change-password', element: <ChangePasswordForm />},
             ]},
             {path: '', element: <HomePage/>},
             {path: 'counter', element: <Counter />},
