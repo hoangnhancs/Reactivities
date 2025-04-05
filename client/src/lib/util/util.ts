@@ -1,15 +1,16 @@
 import { DateArg, format, formatDistanceToNow } from "date-fns";
-import { z } from "zod";
+import { z, ZodSchema } from "zod";
 
-export function formatDate(date: DateArg<Date>){
-    return format(date, 'dd MMM yyyy h:mm a')
+export function formatDate(date: DateArg<Date>) {
+  return format(date, "dd MMM yyyy h:mm a");
 }
 
-export const requiredString = (fieldName: string) => z
-  .string({required_error: `${fieldName} is required`})
-  .min(1, {message: `${fieldName} is required`})
+export const requiredString = (fieldName: string) =>
+  z
+    .string({ required_error: `${fieldName} is required` })
+    .min(1, { message: `${fieldName} is required` });
 
-export const passwordSchema = (fieldName: string) =>
+export const passwordRules = (fieldName: string) =>
   z
     .string({ required_error: `${fieldName} is required` })
     .min(1, { message: `${fieldName} is required` })
@@ -24,7 +25,18 @@ export const passwordSchema = (fieldName: string) =>
     )
     .refine((val) => !/\s/.test(val), "Password cannot contain whitespace");
 
+
+    
+export function zodToRhfRules(schema: ZodSchema) {
+  return {
+    validate: (value: unknown) => {
+      const result = schema.safeParse(value);
+      if (result.success) return true;
+      return result.error.errors[0]?.message || "Invalid value";
+    },
+  };
+}
+
 export function timeAgo(date: DateArg<Date>) {
   return formatDistanceToNow(date) + " ago";
 }
-

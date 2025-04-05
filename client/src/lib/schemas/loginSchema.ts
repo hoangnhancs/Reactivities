@@ -1,9 +1,9 @@
-import { z } from "zod"
-import { passwordSchema } from "../util/util"
+import { z } from "zod";
+import { passwordRules } from "../util/util";
 
 export const loginSchema = z.object({
-    email: z.string().email(),
-    password: passwordSchema("Password"),
-})
+  email: z.string().email(),
+  password: passwordRules("Password"),
+});
 
-export type LoginSchema = z.infer<typeof loginSchema>
+export type LoginSchema = z.infer<typeof loginSchema>;

@@ -4,28 +4,36 @@ import AccountFormWrapper from "./AccountFormWrapper"
 import { zodResolver } from "@hookform/resolvers/zod"
 import TextInput from "../../app/shared/components/TextInput"
 import { useAccount } from "../../lib/hooks/useAccount"
-import { toast } from "react-toastify"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+
 
 
 export default function ChangePasswordForm() {
+
     const {changePassword} = useAccount();
     const [resetForm, setResetForm] = useState(false);
-    const onSubmit = async (data: ChangePasswordSchema) => {
-        console.log(data)
+    const onSubmit = async (data: ChangePasswordSchema) => {   
         try {
             await changePassword.mutateAsync(data, {
                     onSuccess: () => {
                         setResetForm(true)
-                        toast.success('Your password has been changed')
-                    }
+                        
+                    },
+                    
                 }
             )
-
         } catch (error) {
+            
             console.log(error)
         }
     }
+
+    useEffect(() => {
+        if (!resetForm) {
+            // Giả sử AccountFormWrapper tự reset form khi `reset={true}`
+            setResetForm(true); // Quay lại trạng thái ban đầu
+        }
+    }, [resetForm]);
 
     return (
         <AccountFormWrapper<ChangePasswordSchema>

@@ -38,6 +38,7 @@ agent.interceptors.response.use(
               for (const key in data.errors) {
                 if (data.errors[key]) {
                   modalStateErrors.push(data.errors[key]);
+                  toast.error(data.errors[key][0]);
                 }
               }
               throw modalStateErrors.flat();

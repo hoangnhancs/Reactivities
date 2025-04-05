@@ -22,6 +22,9 @@ export const useAccount = () => {
   const changePassword = useMutation({
     mutationFn: async (data: ChangePasswordSchema) => {
       await agent.post('/account/change-password', data)
+    },
+    onSuccess: () => {
+      toast.success('Your password has been changed')
     }
   })
 
@@ -82,6 +85,24 @@ export const useAccount = () => {
     },
   });
 
+  const forgotPassword = useMutation({
+    mutationFn: async (email: string) => {
+      await agent.post("/forgotPassword", { email });
+    },
+    onSuccess: () => {
+      toast.success('Password reset requested - please check your email')
+    }
+  })
+
+  const resetPassword = useMutation({
+    mutationFn: async (data: ResetPassword) => {
+      await agent.post("/resetPassword", data);
+    },
+    onSuccess: () => {
+      toast.success("Password reset requested - please check your email");
+    },
+  });
+
   return {
     loginUser,
     currentUser,
@@ -91,5 +112,7 @@ export const useAccount = () => {
     verifyEmail,
     resendConfirmationEmail,
     changePassword,
+    forgotPassword,
+    resetPassword,
   };
 };
