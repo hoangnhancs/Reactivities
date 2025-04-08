@@ -1,7 +1,7 @@
 import { useNavigate, useSearchParams } from "react-router"
 import { useAccount } from "../../lib/hooks/useAccount";
 import { Typography } from "@mui/material";
-import { resetPasswordSchema, ResetPasswordSchema } from "../../lib/schemas/ResetPasswordSchema";
+import { resetPasswordSchema, ResetPasswordSchema } from "../../lib/schemas/resetPasswordSchema";
 import AccountFormWrapper from "./AccountFormWrapper";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LockOpen } from "@mui/icons-material";
