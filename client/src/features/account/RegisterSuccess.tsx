@@ -5,7 +5,7 @@ import { Check } from "@mui/icons-material";
 type Props = {
     email?: string
 }
-console.log("register success")
+
 export default function RegisterSuccess({email}: Props) {
     
     const {resendConfirmationEmail} = useAccount();

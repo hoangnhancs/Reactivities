@@ -13,7 +13,7 @@ public class DbInitializer
             new () {DisplayName = "Bob", UserName = "bob@gmail.com", Email = "bob@gmail.com"},
             new () {DisplayName = "Tom", UserName = "tom@gmail.com", Email = "tom@gmail.com"},
             new () {DisplayName = "Jane", UserName = "jane@gmail.com", Email = "jane@gmail.com"},
-            new () {DisplayName = "Hoàng Nhân", UserName = "thaihoangnhantk17lqd@gmail.com", Email = "thaihoangnhantk17lqd@gmail.com"},
+            new () {DisplayName = "Hoàng Nhân", UserName = "nhan@gmail.com", Email = "nhan@gmail.com"},
             
         };
         if (!userManager.Users.Any())

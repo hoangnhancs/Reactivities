@@ -14,7 +14,6 @@ export default function TextInput<T extends FieldValues> ({control, ...props}: P
 
     const {field, fieldState} = useController({...props, control: effectiveControl})
     
-    console.log(fieldState.error)
 
     return (
         <TextField 
