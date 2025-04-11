@@ -1,14 +1,22 @@
-services:
-  sql:
-    image: mcr.microsoft.com/mssql/server:2022-latest
-    environment:
-      ACCEPT_EULA: "Y"
-      MSSQL_SA_PASSWORD: "ThaiHoangNhan12012018521182"
-    ports:
-      - "1433:1433"
-    volumes:
-      - sql-data:/var/opt/mssql
-    platform: "linux/amd64"
-volumes:
-  sql-data:
+version: '3.8'
 
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Reactivities.API/Dockerfile
+    container_name: backend
+    ports:
+      - "5001:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+
+  frontend:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend

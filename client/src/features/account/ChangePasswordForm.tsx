@@ -4,7 +4,7 @@ import AccountFormWrapper from "./AccountFormWrapper"
 import { zodResolver } from "@hookform/resolvers/zod"
 import TextInput from "../../app/shared/components/TextInput"
 import { useAccount } from "../../lib/hooks/useAccount"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 
 
 
@@ -16,8 +16,7 @@ export default function ChangePasswordForm() {
         try {
             await changePassword.mutateAsync(data, {
                     onSuccess: () => {
-                        setResetForm(true)
-                        
+                        setResetForm(true)   
                     },
                     
                 }
@@ -28,12 +27,12 @@ export default function ChangePasswordForm() {
         }
     }
 
-    useEffect(() => {
-        if (!resetForm) {
-            // Giả sử AccountFormWrapper tự reset form khi `reset={true}`
-            setResetForm(true); // Quay lại trạng thái ban đầu
-        }
-    }, [resetForm]);
+    // useEffect(() => {
+    //     if (!resetForm) {
+    //         // Giả sử AccountFormWrapper tự reset form khi `reset={true}`
+    //         setResetForm(true); // Quay lại trạng thái ban đầu
+    //     }
+    // }, [resetForm]);
 
     return (
         <AccountFormWrapper<ChangePasswordSchema>
