@@ -28,10 +28,20 @@ builder.Services.AddControllers(opt =>
     opt.Filters.Add(new AuthorizeFilter(policy));
 });
 
-builder.Services.AddDbContext<AppDbContext>(opt =>
+// builder.Services.AddDbContext<AppDbContext>(opt =>
+// {
+//     opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
+// });
+
+
+builder.Services.AddDbContext<AppDbContext>(options =>
 {
-    opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
+    var connStr = builder.Configuration.GetConnectionString("DefaultConnection");
+    options.UseNpgsql(connStr) // Dùng Npgsql cho PostgreSQL
+        .UseSnakeCaseNamingConvention(); //name convert theo chuan postgres
 });
+
+
 //khi bạn đăng ký DbContext bằng AddDbContext<T>(), nó mặc định được đăng ký với vòng đời Scoped.
 builder.Services.AddCors();
 builder.Services.AddSignalR();

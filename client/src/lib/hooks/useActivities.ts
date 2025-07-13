@@ -27,7 +27,7 @@ export const useActivities = (id?: string) => {
   } = useInfiniteQuery<PagedList<Activity, string>>({
     queryKey: ["activities", filter, startDate],
     queryFn: async ({ pageParam = null }) => {
-      const response = await agent.get<PagedList<Activity, string>>(
+      const response = await agent.get<PagedList<Activity, string>>( //string la next cursor khi tra ve o BE
         "/activities", //vi baseURL: import.meta.env.VITE_API_URL=https://localhost:5001/api
         {
           params: {
@@ -45,7 +45,7 @@ export const useActivities = (id?: string) => {
     getNextPageParam: (curentPage) => curentPage.nextCursor, //curent chính là kết quả của lần gọi API trước đó.
     enabled: !id && location.pathname === "/activities" && !!currentUser,
     select: (data) => ({
-      //dât la 1 cuc ma minh vua tra ve
+      //data la tat ca activities da~ tra ve
       ...data,
       pages: data.pages.map((page) => ({
         ...page,
