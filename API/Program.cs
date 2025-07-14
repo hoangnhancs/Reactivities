@@ -92,7 +92,7 @@ app.UseMiddleware<ExceptionMiddleware>();
 // Configure the HTTP request pipeline.
 app.UseCors(options => options.AllowAnyHeader().AllowAnyMethod()
 .AllowCredentials()
-.WithOrigins("http://localhost:3000", "https://localhost:3000"));
+.WithOrigins("http://localhost:3000", "https://localhost:3000", "https://reactivities-two.vercel.app"));
 
 app.UseAuthentication();
 app.UseAuthorization();
