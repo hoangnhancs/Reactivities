@@ -92,6 +92,7 @@ builder.Services.ConfigureApplicationCookie(options =>
 {
     options.Cookie.SameSite = SameSiteMode.None;
     options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+    options.Cookie.Domain = "reactivities-wispy-sun-2134.fly.dev";
 });
 
 var app = builder.Build();
