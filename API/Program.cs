@@ -87,6 +87,13 @@ builder.Services.AddTransient<IAuthorizationHandler, IsHostRequirementHandler>()
 builder.Services.Configure<CloudinarySettings>(builder.Configuration
     .GetSection("CloudinarySettings"));
 
+
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.Cookie.SameSite = SameSiteMode.None;
+    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+});
+
 var app = builder.Build();
 app.UseMiddleware<ExceptionMiddleware>();
 // Configure the HTTP request pipeline.
