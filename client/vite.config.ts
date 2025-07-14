@@ -9,7 +9,7 @@ export default defineConfig({
   },
   plugins: [react(), mkcert()],
   build: {
-    outDir: "../API/wwwroot",
+    outDir: "dist",
     chunkSizeWarningLimit: 1600,
     emptyOutDir: true,
   },
