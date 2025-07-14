@@ -63,7 +63,7 @@ _(Hãy thay thế ảnh chụp màn hình bên dưới bằng ảnh thực tế 
 
 ---
 
-## ► Sơ đồ Cơ sở dữ liệu (Database Schema)
+## ► Database Schema
 
 The diagram below illustrates the structure and key relationships between entities in the application's PostgreSQL database. It clearly depicts one-to-many relationships (e.g., User–Photos, User–Comments) as well as many-to-many relationships (e.g., `User–Activities` via the join table `ActivityAttendees`).
 
