@@ -103,7 +103,7 @@ app.UseAuthorization();
 app.MapControllers();
 app.MapGroup("api").MapIdentityApi<User>();
 app.MapHub<CommentHub>("/comments");
-app.MapFallbackToController("Index", "Fallback");
+
 
 
 using var scope = app.Services.CreateScope();
