@@ -8,9 +8,4 @@ export default defineConfig({
     port: 3000,
   },
   plugins: [react(), mkcert()],
-  build: {
-    outDir: "dist",
-    chunkSizeWarningLimit: 1600,
-    emptyOutDir: true,
-  },
 });
