@@ -88,31 +88,31 @@ builder.Services.Configure<CloudinarySettings>(builder.Configuration
     .GetSection("CloudinarySettings"));
 
 
-builder.Services.ConfigureApplicationCookie(options =>
-{
-    options.Cookie.SameSite = SameSiteMode.None;
-    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-    options.Cookie.Domain = "reactivities-wispy-sun-2134.fly.dev";
-});
+// builder.Services.ConfigureApplicationCookie(options =>
+// {
+//     options.Cookie.SameSite = SameSiteMode.None;
+//     options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+
+// });
 
 var app = builder.Build();
 app.UseMiddleware<ExceptionMiddleware>();
 // Configure the HTTP request pipeline.
 app.UseCors(options => options.AllowAnyHeader().AllowAnyMethod()
 .AllowCredentials()
-.WithOrigins("http://localhost:3000", "https://localhost:3000", "https://reactivities-two.vercel.app"));
+.WithOrigins("http://localhost:3000", "https://localhost:3000"));
 
 app.UseAuthentication();
 app.UseAuthorization();
-// app.UseDefaultFiles();
-// app.UseStaticFiles();
+app.UseDefaultFiles();
+app.UseStaticFiles();
 
 
 app.MapControllers();
 app.MapGroup("api").MapIdentityApi<User>();
 app.MapHub<CommentHub>("/comments");
 
-
+app.MapFallbackToController("Index", "Fallback");
 
 using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;
