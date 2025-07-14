@@ -1,10 +1,10 @@
-# Reactivities - Ứng dụng Mạng xã hội Hoạt động
+# Reactivities - Social Activities Platform
 
 Reactivities is a full-stack web application built with ASP.NET Core for the backend and ReactJS for the frontend. It serves as a social platform where users can create, join, and comment on various activities.
 
 **[Live Demo](https://reactivities-wispy-sun-2134.fly.dev)**
 
-_(Hãy thay thế ảnh chụp màn hình bên dưới bằng ảnh thực tế của ứng dụng bạn)_
+![Demo image for Reactivities](docs/images/reactivities_demo.png)
 
 ---
 
