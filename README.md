@@ -9,8 +9,10 @@ Reactivities is a full-stack web application built with ASP.NET Core for the bac
 - Account 1:
   - Account: bob@gmail.com
   - Password: Pa$$w0rd
-- Account 2: - Account: jane@gmail.com - Password: Pa$$w0rd
-  (for testing realtime comment)
+- Account 2:
+  - Account: jane@gmail.com
+  - Password: Pa$$w0rd
+(for testing realtime comment)
 
 ![Demo image for Reactivities](docs/images/reactivities_demo.png)
 
