@@ -5,8 +5,12 @@ Reactivities is a full-stack web application built with ASP.NET Core for the bac
 **[Live Demo](https://reactivities-wispy-sun-2134.fly.dev)**
 
 **Account demo:**
-    - Account: bob@gmail.com
-    - Password: Pa$$w0rd
+
+- Account 1:
+  - Account: bob@gmail.com
+  - Password: Pa$$w0rd
+- Account 2: - Account: jane@gmail.com - Password: Pa$$w0rd
+  (for testing realtime comment)
 
 ![Demo image for Reactivities](docs/images/reactivities_demo.png)
 

@@ -17,7 +17,7 @@ public class CreateActivity
 {
     public class Command : IRequest<Result<string>> //out Result<string>
     {
-  
+
         public required CreateActivityDto ActivityDto { get; set; }
     }
     public class Handler(AppDbContext context, IMapper mapper, IUserAccessor userAccessor) : IRequestHandler<Command, Result<string>>
@@ -39,6 +39,6 @@ public class CreateActivity
             var result = await context.SaveChangesAsync(cancellationToken) > 0;
             if (!result) return Result<string>.Failure("fail to create activity", 400);
             return Result<string>.Success(activity.Id);
-        }      
+        }
     }
 }
